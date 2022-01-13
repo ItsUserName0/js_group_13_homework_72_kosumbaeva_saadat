@@ -8,6 +8,8 @@ import { RecipeComponent } from './recipes/recipe/recipe.component';
 import { EditRecipeComponent } from './recipes/edit-recipe/edit-recipe.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,12 @@ import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

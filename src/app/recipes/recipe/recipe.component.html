@@ -1,11 +1,11 @@
 <div class="card mb-4" style="width: 18rem;">
   <img
-    src="https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZGlzaHxlbnwwfHwwfHw%3D&w=1000&q=80"
-    class="card-img-top" alt="...">
+    style="width: 100%; height: auto"
+    [src]="recipe.dishImageUrl"
+    class="card-img-top" [alt]="recipe.dishName">
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-      content.</p>
+    <h5 class="card-title">{{ recipe.dishName }}</h5>
+    <p class="card-text">{{ recipe.dishDescription }}</p>
     <div class="row justify-content-end no-gutters">
       <a href="#" class="btn btn-primary">View</a>&nbsp;
       <a href="#" class="btn btn-secondary">Edit</a>&nbsp;

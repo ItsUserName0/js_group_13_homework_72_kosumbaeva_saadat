@@ -1,6 +1,7 @@
-<div class="row justify-content-between no-gutters">
-  <app-recipe></app-recipe>
-  <app-recipe></app-recipe>
-  <app-recipe></app-recipe>
+<div class="row no-gutters" *ngIf="!isFetching">
+  <app-recipe class="mr-3" *ngFor="let r of recipes" [recipe]="r"></app-recipe>
 </div>
 
+<div class="spinner-border" *ngIf="isFetching">
+  <span class="sr-only">Loading...</span>
+</div>
