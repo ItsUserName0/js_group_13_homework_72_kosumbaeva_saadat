@@ -1,0 +1,32 @@
+<form>
+  <div class="row flex-column no-gutters">
+    <div class="form-group col-5">
+      <label for="dishName">Name of the dish:</label>
+      <input type="text" name="dishName" id="dishName" class="form-control">
+    </div>
+    <div class="form-group col-5">
+      <label for="dishDescription">Description:</label>
+      <textarea name="dishDescription" id="dishDescription" class="form-control"></textarea>
+    </div>
+    <div class="form-group col-5">
+      <label for="dishImageUrl">Image:</label>
+      <input type="text" name="dishImageUrl" id="dishImageUrl" class="form-control">
+    </div>
+    <div class="form-group col-5">
+      <label for="dishIngredients">Ingredients:</label>
+      <textarea name="dishIngredients" id="dishIngredients" class="form-control"></textarea>
+    </div>
+    <div class="form-group col-5 mb-0">
+      <div class="mb-3">
+        <label>Steps:</label>&nbsp;
+        <div class="btn btn btn-outline-info">Add step</div>
+      </div>
+      <div class="form-group">
+        <input type="text" name="stepImageUrl" class="form-control mb-2" placeholder="Step image URL">
+        <textarea name="stepDescription" class="form-control mb-3" placeholder="Step description"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-info">Save</button>
+</form>
