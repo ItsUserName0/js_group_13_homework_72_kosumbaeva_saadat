@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../../shared/recipe.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-details',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recipe-details.component.css']
 })
 export class RecipeDetailsComponent implements OnInit {
+  recipe!: Recipe;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.recipe = <Recipe>data.recipe;
+    });
   }
 
 }

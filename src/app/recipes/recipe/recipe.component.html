@@ -7,7 +7,7 @@
     <h5 class="card-title">{{ recipe.dishName }}</h5>
     <p class="card-text">{{ recipe.dishDescription }}</p>
     <div class="row justify-content-end no-gutters">
-      <a href="#" class="btn btn-primary">View</a>&nbsp;
+      <a [routerLink]="['recipes', recipe.id]" class="btn btn-primary">View</a>&nbsp;
       <a href="#" class="btn btn-secondary">Edit</a>&nbsp;
       <button class="btn btn-danger">Delete</button>
     </div>

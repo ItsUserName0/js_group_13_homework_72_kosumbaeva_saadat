@@ -18,7 +18,7 @@ export class RecipeService {
 
   fetchRecipes() {
     this.recipesFetching.next(true);
-    this.http.get<{[id: string]: Recipe}>('https://skosumbaeva2502-default-rtdb.firebaseio.com/recipes.json').pipe(
+    this.http.get<{ [id: string]: Recipe }>('https://skosumbaeva2502-default-rtdb.firebaseio.com/recipes.json').pipe(
       map(data => {
         return Object.keys(data).map(id => {
           const recipe = data[id];
@@ -32,6 +32,15 @@ export class RecipeService {
     }, () => {
       this.recipesFetching.next(false);
     });
+  }
+
+  fetchRecipe(id: string) {
+    return this.http.get<Recipe | null>(`https://skosumbaeva2502-default-rtdb.firebaseio.com/recipes/${id}.json`).pipe(
+      map(result => {
+        if (!result) return null;
+        return new Recipe(id, result.dishName, result.dishDescription, result.dishImageUrl, result.dishIngredients, result.steps);
+      })
+    )
   }
 
   addRecipe(recipe: Recipe) {
