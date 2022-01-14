@@ -9,7 +9,11 @@
     <div class="row justify-content-end no-gutters">
       <a [routerLink]="['recipes', recipe.id]" class="btn btn-primary">View</a>&nbsp;
       <a [routerLink]="['recipes', recipe.id, 'edit']" class="btn btn-secondary">Edit</a>&nbsp;
-      <button class="btn btn-danger">Delete</button>
+      <button class="btn btn-danger" (click)="onRemove()">
+        <span *ngIf="!isRemoving">Delete</span>
+        <span class="spinner-border spinner-border-sm" *ngIf="isRemoving">
+      <span class="sr-only">Loading...</span>
+    </span></button>
     </div>
   </div>
 </div>

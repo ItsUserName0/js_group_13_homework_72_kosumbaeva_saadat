@@ -12,6 +12,7 @@ export class RecipeService {
   recipesChange = new Subject<Recipe[]>();
   recipeUploading = new Subject<boolean>();
   recipesFetching = new Subject<boolean>();
+  recipeRemoving = new Subject<boolean>();
 
   constructor(private http: HttpClient) {
   }
@@ -75,6 +76,17 @@ export class RecipeService {
         this.recipeUploading.next(false);
       }, () => {
         this.recipeUploading.next(false);
+      })
+    );
+  }
+
+  removeRecipe(id: string) {
+    this.recipeRemoving.next(true);
+    return this.http.delete(`https://skosumbaeva2502-default-rtdb.firebaseio.com/recipes/${id}.json`).pipe(
+      tap(() => {
+        this.recipeRemoving.next(false);
+      }, () => {
+        this.recipeRemoving.next(false);
       })
     );
   }
