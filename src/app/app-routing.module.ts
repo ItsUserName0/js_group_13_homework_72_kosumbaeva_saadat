@@ -12,7 +12,10 @@ const routes: Routes = [
     path: 'recipes/:id', component: RecipeDetailsComponent, resolve: {
       recipe: RecipeResolverService,
     }
-  }
+  },
+  {path: 'recipes/:id/edit', component: EditRecipeComponent, resolve: {
+    recipe: RecipeResolverService,
+    }}
 ];
 
 @NgModule({

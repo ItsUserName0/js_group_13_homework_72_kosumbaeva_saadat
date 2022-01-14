@@ -44,7 +44,7 @@ export class RecipeService {
   }
 
   addRecipe(recipe: Recipe) {
-    const data = {
+    const body = {
       dishName: recipe.dishName,
       dishDescription: recipe.dishDescription,
       dishImageUrl: recipe.dishImageUrl,
@@ -52,7 +52,25 @@ export class RecipeService {
       steps: recipe.steps,
     };
     this.recipeUploading.next(true);
-    return this.http.post(`https://skosumbaeva2502-default-rtdb.firebaseio.com/recipes.json`, data).pipe(
+    return this.http.post(`https://skosumbaeva2502-default-rtdb.firebaseio.com/recipes.json`, body).pipe(
+      tap(() => {
+        this.recipeUploading.next(false);
+      }, () => {
+        this.recipeUploading.next(false);
+      })
+    );
+  }
+
+  editRecipe(recipe: Recipe) {
+    const body = {
+      dishName: recipe.dishName,
+      dishDescription: recipe.dishDescription,
+      dishImageUrl: recipe.dishImageUrl,
+      dishIngredients: recipe.dishIngredients,
+      steps: recipe.steps,
+    };
+    this.recipeUploading.next(true);
+    return this.http.put(`https://skosumbaeva2502-default-rtdb.firebaseio.com/recipes/${recipe.id}.json`, body).pipe(
       tap(() => {
         this.recipeUploading.next(false);
       }, () => {

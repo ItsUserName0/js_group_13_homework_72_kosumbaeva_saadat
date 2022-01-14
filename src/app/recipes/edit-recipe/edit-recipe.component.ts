@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RecipeService } from '../../shared/recipe.service';
 import { Recipe } from '../../shared/recipe.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,10 +12,13 @@ import { Subscription } from 'rxjs';
 })
 export class EditRecipeComponent implements OnInit, OnDestroy {
   recipeForm!: FormGroup;
+  recipe!: Recipe;
   recipeUploadingSubscription!: Subscription;
   isUploading = false;
+  editedId = '';
+  isEdit = false;
 
-  constructor(private recipeService: RecipeService, private router: Router) {
+  constructor(private recipeService: RecipeService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -29,21 +32,55 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
     this.recipeUploadingSubscription = this.recipeService.recipeUploading.subscribe(isUploading => {
       this.isUploading = isUploading;
     });
+    this.route.data.subscribe(data => {
+      this.recipe = <Recipe>data.recipe;
+
+      if (this.recipe) {
+        this.editedId = this.recipe.id;
+        this.isEdit = true;
+        this.seedSteps();
+        this.recipeForm.patchValue({
+          dishName: this.recipe.dishName,
+          dishDescription: this.recipe.dishDescription,
+          dishImageUrl: this.recipe.dishImageUrl,
+          dishIngredients: this.recipe.dishIngredients,
+        });
+      } else {
+        this.editedId = '';
+        this.isEdit = false;
+        this.recipeForm.patchValue({
+          dishName: '',
+          dishDescription: '',
+          dishImageUrl: '',
+          dishIngredients: '',
+          steps: [],
+        });
+      }
+    });
   }
 
   saveRecipe() {
-    const id = Math.random().toString();
+    const id = this.editedId || Math.random().toString();
+
     const recipe = new Recipe(id,
       this.recipeForm.value.dishName,
       this.recipeForm.value.dishDescription,
       this.recipeForm.value.dishImageUrl,
       this.recipeForm.value.dishIngredients,
       this.recipeForm.value.steps);
+
     const next = () => {
       this.recipeService.fetchRecipes();
-      void this.router.navigate(['']);
+      if (!this.isEdit) {
+        void this.router.navigate(['']);
+      }
     }
-    this.recipeService.addRecipe(recipe).subscribe(next);
+
+    if (this.isEdit) {
+      this.recipeService.editRecipe(recipe).subscribe(next);
+    } else {
+      this.recipeService.addRecipe(recipe).subscribe(next);
+    }
   }
 
   addStep() {
@@ -73,6 +110,21 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
 
     const field = this.recipeForm.get(fieldName);
     return field && field.touched && field.errors?.[errorType];
+  }
+
+  getStepGroup(image: string, description: string): FormGroup {
+    return this.formBuilder.group({
+      stepImageUrl: [image, Validators.required],
+      stepDescription: [description, Validators.required],
+    });
+  }
+
+  seedSteps() {
+    const steps = <FormArray>this.recipeForm.get('steps');
+    for (let i = 0; i < this.recipe.steps.length; i++) {
+      const step = this.getStepGroup(this.recipe.steps[i].stepImageUrl, this.recipe.steps[i].stepDescription);
+      steps.push(step);
+    }
   }
 
   ngOnDestroy() {

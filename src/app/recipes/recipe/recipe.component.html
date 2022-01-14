@@ -8,7 +8,7 @@
     <p class="card-text">{{ recipe.dishDescription }}</p>
     <div class="row justify-content-end no-gutters">
       <a [routerLink]="['recipes', recipe.id]" class="btn btn-primary">View</a>&nbsp;
-      <a href="#" class="btn btn-secondary">Edit</a>&nbsp;
+      <a [routerLink]="['recipes', recipe.id, 'edit']" class="btn btn-secondary">Edit</a>&nbsp;
       <button class="btn btn-danger">Delete</button>
     </div>
   </div>
