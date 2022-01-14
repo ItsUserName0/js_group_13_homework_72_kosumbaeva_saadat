@@ -18,7 +18,10 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
   editedId = '';
   isEdit = false;
 
-  constructor(private recipeService: RecipeService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+  constructor(private recipeService: RecipeService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -127,7 +130,14 @@ export class EditRecipeComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  onStepRemove(index: number) {
+    const steps = <FormArray>this.recipeForm.get('steps');
+    steps.removeAt(index);
+  }
+
   ngOnDestroy() {
     this.recipeUploadingSubscription.unsubscribe();
   }
+
 }
